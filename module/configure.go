@@ -1,6 +1,7 @@
-package util
+package module
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -11,6 +12,7 @@ import (
 //Gin
 type Gin struct {
 	Mode            string `json:"mode"`
+	Host            string `json:"host"`
 	Url             string `json:"url"`
 	Port            int    `json:"port"`
 	Timeout_read_s  int    `json:"timeout_read_s"`
@@ -48,7 +50,6 @@ type Collections_names struct {
 	Ariticle string `json:"ariticle"`
 }
 
-
 //configure
 type configure struct {
 	Gin               Gin               `json:"gin"`
@@ -57,7 +58,7 @@ type configure struct {
 	Mongo             Mongo             `json:"mongo"`
 	Pic_addr          Pic_addr          `json:"pic_addr"`
 	Collections_names Collections_names `json:"collections_names"`
-	WhiteList	map[string]bool 		`json:"white_list"`
+	WhiteList         map[string]bool   `json:"white_list"`
 }
 
 var (
@@ -66,7 +67,7 @@ var (
 )
 
 //Configure 载入json配置文件
-func Configure(file string) *configure {
+func Configure(ctx context.Context, file string) *configure {
 	conf_once.Do(func() {
 		conf = &configure{}
 		if err := conf.init(file); err != nil {

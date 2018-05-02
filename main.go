@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"github.com/gozh-io/gozh/auth"
-	"github.com/gozh-io/gozh/util"
+	"github.com/gozh-io/gozh/handler"
+	"github.com/gozh-io/gozh/module"
 	"log"
 	"net/http"
 	"os"
@@ -13,16 +13,6 @@ import (
 	"runtime"
 	"time"
 )
-
-func init() {
-	log.SetFlags(log.LstdFlags)
-}
-
-type Stoper interface {
-	Stop()
-}
-
-var all []Stoper
 
 func Usage(program string) {
 	fmt.Printf("\nusage: %s conf/cf.json\n", program)
@@ -34,33 +24,40 @@ func main() {
 		Usage(os.Args[0])
 		os.Exit(-1)
 	}
+	//
+	log.SetFlags(log.LstdFlags)
 	log.Println("[Main] Starting program")
 	defer log.Println("[Main] Exit program successful.")
+	//
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel() //cancel when exit
+	//
+	Init(ctx, os.Args[1])
 
-	Init(os.Args[1])
-	defer Release()
+	//
+	conf := module.GetConfigure()
+	g := conf.Gin
+	mode := g.Mode
+	host := g.Host
+	url := g.Url
+	port := g.Port
+	timeout_read := g.Timeout_read_s
+	timeout_write := g.Timeout_write_s
 
 	//配置gin
-	gin.SetMode(gin.ReleaseMode)
+	gin.SetMode(mode)
 	router := gin.New()
-	router.Use(util.Logger())
-	//router.Static("/static", "./static") //载入js,css,img等静态资源
-	//router.LoadHTMLGlob("view/*.html")   //载入html模板
-	conf := util.GetConfigure()
-	// use CORS middleware
-	router.Use(auth.CORS(conf.WhiteList))
-	g := conf.Gin
-	server := fmt.Sprintf(":%v", g.Port)
+	router.Use(module.Logger())
 
-	prefix := fmt.Sprintf("%s", g.Url)
-	AllRouter(prefix, router)
+	prefix := fmt.Sprintf("%s", url)
+	handler.AllRouter(prefix, router)
 
 	//起一个http服务器
 	s := &http.Server{
-		Addr:         server,
+		Addr:         fmt.Sprintf("%s:%d", host, port),
 		Handler:      router,
-		ReadTimeout:  time.Duration(g.Timeout_read_s) * time.Second,
-		WriteTimeout: time.Duration(g.Timeout_write_s) * time.Second,
+		ReadTimeout:  time.Duration(timeout_read) * time.Second,
+		WriteTimeout: time.Duration(timeout_write) * time.Second,
 	}
 	go func(s *http.Server) {
 		log.Printf("[Main] http server start\n")
@@ -82,23 +79,13 @@ func main() {
 	}
 }
 
+func Init(ctx context.Context, filename string) {
+	SetupCPU()
+	module.Configure(ctx, filename)
+	module.Mylog(ctx)
+}
+
 func SetupCPU() {
 	num := runtime.NumCPU()
 	runtime.GOMAXPROCS(num)
-}
-
-func Init(filename string) {
-	//配置使用cpu数量
-	SetupCPU()
-	//读取配置文件信息
-	util.Configure(filename)
-	//1
-	mylog := util.Mylog()
-	all = append(all, mylog)
-}
-
-func Release() {
-	for _, v := range all {
-		v.Stop()
-	}
 }
