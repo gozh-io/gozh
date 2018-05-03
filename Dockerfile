@@ -32,4 +32,4 @@ COPY --from=builder /go/src/github.com/gozh-io/gozh/conf conf
 VOLUME /myapp 
 EXPOSE 80
 
-CMD  ./gozh conf/cf.json >> stdout_`date +%Y%m%d-%H:%M:%d`.log 2>&1
+CMD  ./gozh conf/cf.json >> stdout.log 2>&1
