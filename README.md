@@ -1,7 +1,7 @@
 # gozh
 
 
-##获取项目
+## 获取项目
 
 >git clone https://github.com/gozh-io/gozh.git
 
