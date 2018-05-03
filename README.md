@@ -1,4 +1,8 @@
 # gozh
+获取项目
+git clone https://github.com/gozh-io/gozh.git
+
+
 说明1:gozh中文社区后端
 
 说明2:每次修改完代码后,需要先在本机上执行godep save,保存gozh引用的依赖到vendor目录里
