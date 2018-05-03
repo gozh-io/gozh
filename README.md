@@ -3,7 +3,9 @@
 
 ## 获取项目
 
->git clone https://github.com/gozh-io/gozh.git
+>go get github.com/gozh-io/gozh
+
+>自动下载当前系统$GOPATH/src目录里,路径是github.com/gozh-io/gozh
 
 >说明1:gozh中文社区后端
 
