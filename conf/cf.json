@@ -2,7 +2,7 @@
   "gin": {
     "mode": "release",
     "url": "/",
-    "host": "127.0.0.1",
+    "host": "",
     "port": 80,
     "timeout_read_s": 5,
     "timeout_write_s": 5

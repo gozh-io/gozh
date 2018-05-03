@@ -1,0 +1,7 @@
+.git
+doc
+logs
+
+.DS_Store
+gozh
+*.log
