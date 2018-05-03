@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/gozh-io/gozh/handler"
 	"github.com/gozh-io/gozh/module"
@@ -48,6 +50,9 @@ func main() {
 	gin.SetMode(mode)
 	router := gin.New()
 	router.Use(module.Logger())
+	//添加session管理
+	store := cookie.NewStore([]byte("secret"))
+	router.Use(sessions.Sessions("mysession", store))
 
 	prefix := fmt.Sprintf("%s", url)
 	handler.AllRouter(prefix, router)
