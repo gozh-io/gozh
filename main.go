@@ -86,7 +86,7 @@ func useMiddleware(router *gin.Engine) {
 	router.Use(mylog.Logger())
 	//添加session管理
 	store := cookie.NewStore([]byte("secret"))
-	router.Use(sessions.Sessions("mysession", store))
+	router.Use(sessions.Sessions("GINSESSID", store))
 	//添加cors管理
 	router.Use(auth.Cors())
 
