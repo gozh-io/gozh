@@ -1,8 +1,10 @@
-package module
+package mylog
 
 import (
 	"context"
 	"github.com/cihub/seelog"
+	"github.com/gozh-io/gozh/module/common"
+	"github.com/gozh-io/gozh/module/configure"
 	"log"
 	"sync"
 )
@@ -36,7 +38,7 @@ func Mylog(ctx context.Context) *mylog {
 
 // LoadConfigure 从file里读取seelog 配置
 func (l *mylog) loadConfigure() error {
-	conf := GetConfigure()
+	conf := configure.GetConfigure()
 	file := conf.Log.File
 	file_a := conf.Log.Access
 
@@ -52,7 +54,7 @@ func (l *mylog) loadConfigure() error {
 	}
 	l.Log_a = logger_a
 
-	l.StructName = GetStructName(l)
+	l.StructName = common.GetStructName(l)
 	log.Printf("[%s] Start\n", l.StructName)
 	return nil
 }

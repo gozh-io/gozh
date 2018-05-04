@@ -7,7 +7,8 @@ import (
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/gozh-io/gozh/handler"
-	"github.com/gozh-io/gozh/module"
+	"github.com/gozh-io/gozh/module/configure"
+	"github.com/gozh-io/gozh/module/mylog"
 	"log"
 	"net/http"
 	"os"
@@ -26,38 +27,27 @@ func main() {
 		Usage(os.Args[0])
 		os.Exit(-1)
 	}
-	//
+	//设置官方日志包log输出格式
 	log.SetFlags(log.LstdFlags)
 	log.Println("[Main] Starting program")
 	defer log.Println("[Main] Exit program successful.")
-	//
+	//创建一个context
 	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel() //cancel when exit
-	//
+	defer cancel() //send cancel operator when exit
+	//在启动http服务前,加载单实例资源
 	Init(ctx, os.Args[1])
 
-	//
-	conf := module.GetConfigure()
-	g := conf.Gin
-	mode := g.Mode
-	host := g.Host
-	url := g.Url
-	port := g.Port
-	timeout_read := g.Timeout_read_s
-	timeout_write := g.Timeout_write_s
-
 	//配置gin
+	conf := configure.GetConfigure()
+	g := conf.Gin
+	mode, host, url, port, timeout_read, timeout_write := g.Mode, g.Host, g.Url, g.Port, g.Timeout_read_s, g.Timeout_write_s
+
 	gin.SetMode(mode)
 	router := gin.New()
-	router.Use(module.Logger())
-	//添加session管理
-	store := cookie.NewStore([]byte("secret"))
-	router.Use(sessions.Sessions("mysession", store))
+	useMiddleware(router)                     //配置使用中间件
+	allRouter(router, fmt.Sprintf("%s", url)) //配置路由
 
-	prefix := fmt.Sprintf("%s", url)
-	handler.AllRouter(prefix, router)
-
-	//起一个http服务器
+	//起一个goroutine 跑http服务
 	s := &http.Server{
 		Addr:         fmt.Sprintf("%s:%d", host, port),
 		Handler:      router,
@@ -84,12 +74,36 @@ func main() {
 	}
 }
 
-func Init(ctx context.Context, filename string) {
-	SetupCPU()
-	module.Configure(ctx, filename)
-	module.Mylog(ctx)
+//配置gin 的路由
+func allRouter(router *gin.Engine, prefix string) {
+	handler.AllRouter(router, prefix) //真正的url和handler对应关系在 handler/router.go里配置
 }
 
+//配置gin 使用哪些中间件
+func useMiddleware(router *gin.Engine) {
+	//输出访问日志
+	router.Use(mylog.Logger())
+	//添加session管理
+	store := cookie.NewStore([]byte("secret"))
+	router.Use(sessions.Sessions("mysession", store))
+
+	/*
+	  这里添加其他中间件
+	*/
+}
+
+//这里配置程序启动时,需要加载的单实例模块
+func Init(ctx context.Context, filename string) {
+	SetupCPU()
+	configure.Configure(ctx, filename)
+	mylog.Mylog(ctx)
+
+	/*
+	  这里添加其他单实例
+	*/
+}
+
+//配置程序使用几个cpu
 func SetupCPU() {
 	num := runtime.NumCPU()
 	runtime.GOMAXPROCS(num)
