@@ -7,6 +7,7 @@ import (
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"github.com/gozh-io/gozh/handler"
+	"github.com/gozh-io/gozh/module/auth"
 	"github.com/gozh-io/gozh/module/configure"
 	"github.com/gozh-io/gozh/module/mylog"
 	"log"
@@ -86,6 +87,8 @@ func useMiddleware(router *gin.Engine) {
 	//添加session管理
 	store := cookie.NewStore([]byte("secret"))
 	router.Use(sessions.Sessions("mysession", store))
+	//添加cors管理
+	router.Use(auth.Cors())
 
 	/*
 	  这里添加其他中间件

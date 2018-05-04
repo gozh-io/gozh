@@ -29,6 +29,11 @@
 			"Rev": "7bfb7937d106522a9c6d659864dca47cddcccc8a"
 		},
 		{
+			"ImportPath": "github.com/gin-contrib/cors",
+			"Comment": "v1.2-10-gdf6cfb7",
+			"Rev": "df6cfb7ff4a38d694dfebd0868ecb3e956171366"
+		},
+		{
 			"ImportPath": "github.com/gin-contrib/sessions",
 			"Rev": "8d0a81f4b00615db3ab4d0f550fa90d33a948ca6"
 		},
