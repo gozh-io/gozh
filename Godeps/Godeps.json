@@ -66,6 +66,31 @@
 			"Rev": "2282be059be78f9f7f70a72ca4dd3bcfe5f972ee"
 		},
 		{
+			"ImportPath": "github.com/globalsign/mgo",
+			"Comment": "r2018.02.20",
+			"Rev": "baa28fcb8e7d5dfab92026c0920cb6c9ae72faa2"
+		},
+		{
+			"ImportPath": "github.com/globalsign/mgo/bson",
+			"Comment": "r2018.02.20",
+			"Rev": "baa28fcb8e7d5dfab92026c0920cb6c9ae72faa2"
+		},
+		{
+			"ImportPath": "github.com/globalsign/mgo/internal/json",
+			"Comment": "r2018.02.20",
+			"Rev": "baa28fcb8e7d5dfab92026c0920cb6c9ae72faa2"
+		},
+		{
+			"ImportPath": "github.com/globalsign/mgo/internal/sasl",
+			"Comment": "r2018.02.20",
+			"Rev": "baa28fcb8e7d5dfab92026c0920cb6c9ae72faa2"
+		},
+		{
+			"ImportPath": "github.com/globalsign/mgo/internal/scram",
+			"Comment": "r2018.02.20",
+			"Rev": "baa28fcb8e7d5dfab92026c0920cb6c9ae72faa2"
+		},
+		{
 			"ImportPath": "github.com/golang/protobuf/proto",
 			"Comment": "v1.0.0-2-ge09c5db",
 			"Rev": "e09c5db296004fbe3f74490e84dcd62c3c5ddb1b"

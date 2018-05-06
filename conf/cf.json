@@ -17,6 +17,7 @@
   "mongo": {
     "hosts": "127.0.0.1:27017",
     "connect_timeout_s": 2,
+    "database_name": "gozh",
     "username": "",
     "passwd": ""
   },

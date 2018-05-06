@@ -16,4 +16,12 @@ func AllRouter(router *gin.Engine, prefix string) {
 	/*
 	  这里添加其他 url和handler处理关系
 	*/
+	user := fmt.Sprintf("%s/%s", prefix, "user")
+	userGroup := router.Group(user)
+	{
+		sign_up := "/sign_up"
+		userGroup.POST(sign_up, UserSignUp)
+		login := "/login"
+		userGroup.POST(login, UserLogin)
+	}
 }
