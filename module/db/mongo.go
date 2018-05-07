@@ -1,10 +1,9 @@
 package db
 
 import (
+	"github.com/globalsign/mgo"
 	"strings"
 	"time"
-	"github.com/globalsign/mgo"
-	"sync"
 )
 
 type Session struct {
@@ -21,10 +20,6 @@ type MongoClient struct {
 	ConnectTimeoutSecond int
 	Session
 }
-
-var (
-	mongo_once   sync.Once
-)
 
 func (m *MongoClient) Connect() error {
 	dialInfo := &mgo.DialInfo{

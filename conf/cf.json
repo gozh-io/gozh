@@ -19,14 +19,14 @@
     "connect_timeout_s": 2,
     "database_name": "gozh",
     "username": "",
-    "passwd": ""
+    "passwd": "",
+    "collections_names": {
+        "user": "user",
+        "ariticle": "ariticle"
+    }
   },
   "pic_addr": {
     "prefix": ""
-  },
-  "collections_names": {
-    "user": "user",
-    "ariticle": "ariticle"
   },
   "white_list" : {
     "http://localhost:8080":true,

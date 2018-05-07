@@ -31,12 +31,18 @@ type Es struct {
 }
 
 //mongo
+type Collections_names struct {
+	User     string `json:"user"`
+	Ariticle string `json:"ariticle"`
+}
+
 type Mongo struct {
-	Hosts             string `json:"hosts"`
-	Connect_timeout_s int    `json:"connect_timeout_s"`
-	Username          string `json:"username"`
-	Passwd            string `json:"passwd"`
-	DatabaseName      string `json:"database_name"`
+	Hosts             string            `json:"hosts"`
+	Connect_timeout_s int               `json:"connect_timeout_s"`
+	Username          string            `json:"username"`
+	Passwd            string            `json:"passwd"`
+	DatabaseName      string            `json:"database_name"`
+	Collections_names Collections_names `json:"collections_names"`
 }
 
 //pic_addr
@@ -44,21 +50,14 @@ type Pic_addr struct {
 	Prefix string `json:"prefix"`
 }
 
-//collections' names
-type Collections_names struct {
-	User     string `json:"user"`
-	Ariticle string `json:"ariticle"`
-}
-
 //configure
 type configure struct {
-	Gin               Gin               `json:"gin"`
-	Log               Log               `json:"log"`
-	Es                Es                `json:"es"`
-	Mongo             Mongo             `json:"mongo"`
-	Pic_addr          Pic_addr          `json:"pic_addr"`
-	Collections_names Collections_names `json:"collections_names"`
-	WhiteList         map[string]bool   `json:"white_list"`
+	Gin       Gin             `json:"gin"`
+	Log       Log             `json:"log"`
+	Es        Es              `json:"es"`
+	Mongo     Mongo           `json:"mongo"`
+	Pic_addr  Pic_addr        `json:"pic_addr"`
+	WhiteList map[string]bool `json:"white_list"`
 }
 
 var (

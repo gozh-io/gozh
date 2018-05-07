@@ -10,6 +10,7 @@ import (
 	"github.com/gozh-io/gozh/module/auth"
 	"github.com/gozh-io/gozh/module/configure"
 	"github.com/gozh-io/gozh/module/mylog"
+	"github.com/gozh-io/gozh/module/util"
 	"log"
 	"net/http"
 	"os"
@@ -91,7 +92,7 @@ func useMiddleware(router *gin.Engine) {
 	router.Use(auth.Cors())
 
 	/*
-	  这里添加其他中间件
+	  这里添加其他中间件,这个请放在最下面
 	*/
 }
 
@@ -100,9 +101,10 @@ func Init(ctx context.Context, filename string) {
 	SetupCPU()
 	configure.Configure(ctx, filename)
 	mylog.Mylog(ctx)
+	util.MongoUser(ctx)
 
 	/*
-	  这里添加其他单实例
+	  这里添加其他单实例,这个请放在最下面
 	*/
 }
 
