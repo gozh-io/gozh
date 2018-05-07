@@ -90,7 +90,6 @@ func useMiddleware(router *gin.Engine) {
 	router.Use(sessions.Sessions("GINSESSID", store))
 	//添加cors管理
 	router.Use(auth.Cors())
-
 	/*
 	  这里添加其他中间件,这个请放在最下面
 	*/

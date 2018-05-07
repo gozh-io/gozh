@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"sync"
@@ -72,6 +73,7 @@ func Configure(ctx context.Context, file string) *configure {
 		if err := conf.init(file); err != nil {
 			log.Fatalln(err)
 		}
+		conf.readEnv()
 	})
 	return conf
 }
@@ -83,27 +85,23 @@ func (c *configure) init(file string) error {
 		return fmt.Errorf("error open file %s fail,%v", file, err)
 	}
 	defer fd.Close()
-	/*
-		//处理不了字段中包含html字符的,比如&
-		content, err := ioutil.ReadAll(fd)
-		if err != nil {
+
+	decoder := json.NewDecoder(fd)
+	for {
+		if err := decoder.Decode(c); err == io.EOF {
+			break
+		} else if err != nil {
 			return err
 		}
-		return xml.Unmarshal(content, c)
-	*/
-	//使用decoder处理包含html字符的内容
-
-	//d := xml.NewDecoder(fd)
-	//d.Strict = false
-	//d.AutoClose = xml.HTMLAutoClose
-	//d.Entity = xml.HTMLEntity
-
-	b := make([]byte, 1000)
-	n, err := fd.Read(b)
-	if n == 0 {
-		fmt.Print("配置文件中未找到相应数据")
 	}
-	return json.Unmarshal(b[:n], c)
+	return nil
+}
+
+func (c *configure) readEnv() {
+	mongo_host := os.Getenv("MONGO_DB_HOST")
+	if mongo_host != "" {
+		c.Mongo.Hosts = mongo_host
+	}
 }
 
 func (c *configure) String() string {

@@ -8,7 +8,6 @@ import (
 	"github.com/gozh-io/gozh/module/db"
 	"log"
 	"sync"
-	"time"
 )
 
 //状态
@@ -27,9 +26,9 @@ const (
 )
 
 type User struct {
-	UserName   string    `json:"username"`
-	PassWord   string    `json:"password"`
-	CreateTime time.Time `json:"createtime"`
+	UserName   string `form:"username" json:"username"`
+	PassWord   string `form:"password" json:"password"`
+	CreateTime string `json:"createtime"`
 }
 
 type mongoUser struct {
@@ -66,6 +65,7 @@ func (m *mongoUser) CreateUser(user *User) (err error, status int) {
 	m.Mongo.C()
 
 	user.PassWord = common.Sha256Encode(user.PassWord)
+	user.CreateTime = common.GetBeiJingDT()
 
 	collection := m.Mongo.GetCollection()
 	if err := collection.Insert(user); err != nil {
