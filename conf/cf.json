@@ -4,8 +4,8 @@
     "url": "/",
     "host": "",
     "port": 80,
-    "timeout_read_s": 5,
-    "timeout_write_s": 5
+    "timeout_read_s": 30,
+    "timeout_write_s": 30
   },
   "log": {
     "access": "conf/access.xml",
@@ -15,7 +15,7 @@
     "hosts": "http://127.0.0.1:9200"
   },
   "mongo": {
-    "hosts": "127.0.0.1:27017",
+    "hosts": "192.168.200.2:27017",
     "connect_timeout_s": 2,
     "database_name": "gozh",
     "username": "",
@@ -25,8 +25,14 @@
         "ariticle": "ariticle"
     }
   },
-  "pic_addr": {
-    "prefix": ""
+  "image_database": {
+    "hosts": "192.168.200.2:27017",
+    "connect_timeout_s": 20,
+    "database_name": "image",
+    "username": "",
+    "passwd": "",
+    "collection_prifix": "",
+    "access_url_prefix": ""
   },
   "white_list" : {
     "http://localhost:8080":true,

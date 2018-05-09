@@ -12,7 +12,7 @@ ARG PROJECT_NAME=gozh
 ENV APP_DIR          $GOPATH/src/$PROJECT_URL
 ENV APP_CONFIG_DIR   $APP_DIR
 
-RUN mkdir -p $APP_DIR
+RUN  mkdir -p $APP_DIR  && mkdir -p $APP_DIR/logs
 COPY . $APP_DIR
 
 WORKDIR $APP_DIR
@@ -32,4 +32,4 @@ COPY --from=builder /go/src/github.com/gozh-io/gozh/conf conf
 VOLUME /myapp 
 EXPOSE 80
 
-CMD  ./gozh conf/cf.json >> stdout.log 2>&1
+CMD  ./gozh conf/cf.json > ./logs/stdout.log 2>&1

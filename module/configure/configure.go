@@ -47,18 +47,24 @@ type Mongo struct {
 }
 
 //pic_addr
-type Pic_addr struct {
-	Prefix string `json:"prefix"`
+type ImageDatabase struct {
+	Hosts             string `json:"hosts"`
+	Connect_timeout_s int    `json:"connect_timeout_s"`
+	Username          string `json:"username"`
+	Passwd            string `json:"passwd"`
+	DatabaseName      string `json:"database_name"`
+	Collection_prifix string `json:"collection_prifix"`
+	Access_url_prefix string `json:"access_url_prefix"`
 }
 
 //configure
 type configure struct {
-	Gin       Gin             `json:"gin"`
-	Log       Log             `json:"log"`
-	Es        Es              `json:"es"`
-	Mongo     Mongo           `json:"mongo"`
-	Pic_addr  Pic_addr        `json:"pic_addr"`
-	WhiteList map[string]bool `json:"white_list"`
+	Gin           Gin             `json:"gin"`
+	Log           Log             `json:"log"`
+	Es            Es              `json:"es"`
+	Mongo         Mongo           `json:"mongo"`
+	ImageDatabase ImageDatabase   `json:"image_database"`
+	WhiteList     map[string]bool `json:"white_list"`
 }
 
 var (
@@ -101,6 +107,10 @@ func (c *configure) readEnv() {
 	mongo_host := os.Getenv("MONGO_DB_HOST")
 	if mongo_host != "" {
 		c.Mongo.Hosts = mongo_host
+	}
+	image_host := os.Getenv("IMAGE_DB_HOST")
+	if image_host != "" {
+		c.ImageDatabase.Hosts = image_host
 	}
 }
 

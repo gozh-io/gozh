@@ -101,7 +101,7 @@ func Init(ctx context.Context, filename string) {
 	configure.Configure(ctx, filename)
 	mylog.Mylog(ctx)
 	util.MongoUser(ctx)
-
+	util.MongoImage(ctx)
 	/*
 	  这里添加其他单实例,这个请放在最下面
 	*/

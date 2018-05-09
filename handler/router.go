@@ -22,6 +22,14 @@ func AllRouter(router *gin.Engine, prefix string) {
 		login := "/login"
 		userGroup.POST(login, UserLogin)
 	}
+	//image
+	image := fmt.Sprintf("%s/%s", prefix, "image")
+	imageGroup := router.Group(image)
+	{
+		imageGroup.POST("/upload", ImageUpload)
+		imageGroup.POST("/uploads", ImageUploads)
+	}
+
 	/*
 	  这里添加其他 url和handler处理关系, 请保持这个在最下面
 	*/

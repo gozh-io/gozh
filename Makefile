@@ -22,15 +22,15 @@ rmi:
 	docker rmi -f $(FQIN):$(TAG)
 
 install:
-	echo "TBD."
+	@echo "TBD."
 
 test:
 	# sudo docker search $(REGISTRY)/$(FQIN)
-	echo "TBD."
+	@echo "TBD."
 
 clean:
 	# sudo atomic uninstall --force $(TEST_IMAGE)
-	echo "TBD."
+	@echo "TBD."
 
 publish:
 	docker login -u ${REGISTRY_USER} $(REGISTRY)
@@ -46,9 +46,9 @@ publish:
 	docker push $(FQIN):latest
 	docker tag  $(FQIN) $(FQIN):$(TAG)
 	docker push $(FQIN):$(TAG)
-	echo "RUN exmaple:"
-	echo "docker run --rm -p 80:80  $(FQIN):latest"
-	echo "docker run --rm -it -p 80:80 $(FQIN):latest bash"
+	@echo "RUN exmaple:"
+	@echo "docker run --rm -p 80:80  $(FQIN):latest"
+	@echo "docker run --rm -it -p 80:80 $(FQIN):latest bash"
 
 publish-test:
 	#docker search $(REGISTRY)/$(FQIN)
