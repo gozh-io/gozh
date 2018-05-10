@@ -2,9 +2,11 @@ package db
 
 import (
 	//"crypto/md5"
+	"fmt"
 	"github.com/globalsign/mgo"
 	"github.com/globalsign/mgo/bson"
 	"io"
+	"io/ioutil"
 	"mime/multipart"
 )
 
@@ -88,12 +90,26 @@ func (m *MongoGridfs) Uploads(fileHeaders []*multipart.FileHeader, username stri
 	return _map, nil
 }
 
-//通过文件名删除
+//根据id获取单个文件
+func (m *MongoGridfs) OpenId(id interface{}) ([]byte, error) {
+	id_str := fmt.Sprintf("%v", id)
+	objectId := bson.ObjectIdHex(id_str)
+	gridfile, err := m.GridFS.OpenId(objectId)
+	if err != nil {
+		return nil, err
+	}
+	defer gridfile.Close()
+	return ioutil.ReadAll(gridfile)
+}
+
+//通过文件名删除,删除文件名是name的所有文件
 func (m *MongoGridfs) Remove(name string) error {
 	return m.GridFS.Remove(name)
 }
 
-//通过id删除
+//通过id删除,只删除一个文件
 func (m *MongoGridfs) RemoveId(id interface{}) error {
-	return m.GridFS.RemoveId(id)
+	id_str := fmt.Sprintf("%v", id)
+	objectId := bson.ObjectIdHex(id_str)
+	return m.GridFS.RemoveId(objectId)
 }

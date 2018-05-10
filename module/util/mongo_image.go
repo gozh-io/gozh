@@ -56,6 +56,24 @@ func (m *mongoImage) Uploads(fileHeaders []*multipart.FileHeader, username strin
 	return m.Mongo.Uploads(fileHeaders, username)
 }
 
+//根据id读文件
+func (m *mongoImage) OpenId(id interface{}, username string) ([]byte, error) {
+	if err := m.Mongo.Connect(); err != nil {
+		return nil, err
+	}
+	defer m.Mongo.Close()
+	return m.Mongo.OpenId(id)
+}
+
+//根据id删除文件
+func (m *mongoImage) RemoveId(id interface{}, username string) error {
+	if err := m.Mongo.Connect(); err != nil {
+		return err
+	}
+	defer m.Mongo.Close()
+	return m.Mongo.RemoveId(id)
+}
+
 //获取到图片的最终访问地址
 func (m *mongoImage) GetAccessUrl(idOrFilename interface{}) string {
 	return fmt.Sprintf("%v/%v", m.AccessUrlPrefix, idOrFilename)

@@ -28,8 +28,9 @@ func AllRouter(router *gin.Engine, prefix string) {
 	{
 		imageGroup.POST("/upload", ImageUpload)
 		imageGroup.POST("/uploads", ImageUploads)
+		imageGroup.GET("/get/:imgid", ImageOpenId)
+		imageGroup.GET("/remove/:imgid", ImageRemoveId)
 	}
-
 	/*
 	  这里添加其他 url和handler处理关系, 请保持这个在最下面
 	*/
