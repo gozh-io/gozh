@@ -91,6 +91,21 @@
 			"Rev": "baa28fcb8e7d5dfab92026c0920cb6c9ae72faa2"
 		},
 		{
+			"ImportPath": "github.com/golang/freetype",
+			"Comment": "release-137-ge2365df",
+			"Rev": "e2365dfdc4a05e4b8299a783240d4a7d5a65d4e4"
+		},
+		{
+			"ImportPath": "github.com/golang/freetype/raster",
+			"Comment": "release-137-ge2365df",
+			"Rev": "e2365dfdc4a05e4b8299a783240d4a7d5a65d4e4"
+		},
+		{
+			"ImportPath": "github.com/golang/freetype/truetype",
+			"Comment": "release-137-ge2365df",
+			"Rev": "e2365dfdc4a05e4b8299a783240d4a7d5a65d4e4"
+		},
+		{
 			"ImportPath": "github.com/golang/protobuf/proto",
 			"Comment": "v1.0.0-2-ge09c5db",
 			"Rev": "e09c5db296004fbe3f74490e84dcd62c3c5ddb1b"
@@ -131,9 +146,22 @@
 			"Rev": "05fbef0ca5da472bbf96c9322b84a53edc03c9fd"
 		},
 		{
+			"ImportPath": "github.com/mojocn/base64Captcha",
+			"Comment": "v1.09",
+			"Rev": "7d0b78ad1685f79a0fea381c107d77ec1f812500"
+		},
+		{
 			"ImportPath": "github.com/ugorji/go/codec",
 			"Comment": "v1.1.1-1-gf3cacc1",
 			"Rev": "f3cacc17c85ecb7f1b6a9e373ee85d1480919868"
+		},
+		{
+			"ImportPath": "golang.org/x/image/font",
+			"Rev": "f315e440302883054d0c2bd85486878cb4f8572c"
+		},
+		{
+			"ImportPath": "golang.org/x/image/math/fixed",
+			"Rev": "f315e440302883054d0c2bd85486878cb4f8572c"
 		},
 		{
 			"ImportPath": "golang.org/x/sys/unix",

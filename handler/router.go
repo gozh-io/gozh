@@ -31,6 +31,9 @@ func AllRouter(router *gin.Engine, prefix string) {
 		imageGroup.GET("/get/:imgid", ImageOpenId)
 		imageGroup.GET("/remove/:imgid", ImageRemoveId)
 	}
+	//captcha
+	captcha := fmt.Sprintf("%s/%s", prefix, "captcha")
+	router.GET(captcha, GenerateCaptchaHandler)
 	/*
 	  这里添加其他 url和handler处理关系, 请保持这个在最下面
 	*/

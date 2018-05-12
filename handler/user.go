@@ -2,11 +2,12 @@ package handler
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/gozh-io/gozh/module/types"
 	"github.com/gozh-io/gozh/module/util"
-	"net/http"
 )
 
 const (
@@ -26,8 +27,8 @@ func auditUser(user *util.User) error {
 	}
 	if password_len == 0 {
 		return fmt.Errorf("请确认是否输入密码,或者请查看是否以post form方式传输的密码")
-	} else if password_len >= USERNAME_MAX_LEN {
-		return fmt.Errorf("密码太长了,最长支持%v个字母", USERNAME_MAX_LEN)
+	} else if password_len >= PASSWORD_MAX_LEN {
+		return fmt.Errorf("密码太长了,最长支持%v个字母", PASSWORD_MAX_LEN)
 	}
 	return nil
 }
@@ -38,6 +39,23 @@ func auditUser(user *util.User) error {
 func UserSignUp(c *gin.Context) {
 	resp := types.Response{}
 	user := &util.User{}
+	session := sessions.Default(c)
+	// 获取验证码
+	verifyValue := c.PostForm("captcha")
+	captchaId, ok := session.Get("captchaId").(string)
+	// 检查是否获取过验证码
+	if !ok {
+		resp.Status, resp.Desc = CAPTCHA_IS_ERROR, "captcha is not generate"
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+	// 检查验证码是否符合
+	if status, err := VerfiyCaptcha(captchaId, verifyValue); err != nil {
+		resp.Status, resp.Desc = status, fmt.Sprintf("%v", err)
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
 	c.Bind(user)
 	if err := auditUser(user); err != nil {
 		resp.Status, resp.Desc = AUDIT_USER_FAIL, fmt.Sprintf("%v", err)
