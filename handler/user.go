@@ -36,6 +36,7 @@ func auditUser(user *util.User) error {
 // 用户注册
 // 路由: /user/signup
 // Example post a  form (username=manu&password=123)
+//curl -X POST http://localhost:8080/user/signup -d "username=admin&password=admin"
 func UserSignUp(c *gin.Context) {
 	resp := types.Response{}
 	user := &util.User{}
@@ -86,6 +87,7 @@ func UserSignUp(c *gin.Context) {
 // 用户登录
 // 路由: /user/login
 // Example post a  form (username=manu&password=123)
+//curl -X POST http://localhost:8080/user/login -d "username=admin&password=admin"
 func UserLogin(c *gin.Context) {
 	resp := types.Response{}
 	user := &util.User{}
