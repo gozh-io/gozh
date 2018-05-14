@@ -39,6 +39,7 @@
     "http://127.0.0.1:8080":true,
     "http://gozh_all_myapp_1":true,
     "http://192.168.200.3":true,
-    "http://127.0.0.1": true
+    "http://127.0.0.1":true,
+    "http://www.gozh.io":true
   }
 }
