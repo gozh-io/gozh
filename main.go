@@ -3,6 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"runtime"
+	"time"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
@@ -11,12 +18,6 @@ import (
 	"github.com/gozh-io/gozh/module/configure"
 	"github.com/gozh-io/gozh/module/mylog"
 	"github.com/gozh-io/gozh/module/util"
-	"log"
-	"net/http"
-	"os"
-	"os/signal"
-	"runtime"
-	"time"
 )
 
 func Usage(program string) {

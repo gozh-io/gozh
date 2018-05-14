@@ -3,9 +3,10 @@ package mylog
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"strings"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 //结构要直接转换成json字符串,结构中变量首字母必须大写
@@ -24,6 +25,7 @@ type LogFormat struct {
 	Latency    int64  `json:"latency"`
 	Bytes_in   int64  `json:"bytes_in"`
 	Bytes_out  int64  `json:"bytes_out"`
+	Origin     string `json:"origin"`
 }
 
 func (format *LogFormat) Marshal() (string, error) {
