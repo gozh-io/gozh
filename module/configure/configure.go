@@ -57,6 +57,14 @@ type ImageDatabase struct {
 	Access_url_prefix string `json:"access_url_prefix"`
 }
 
+//email
+type Email struct {
+	Host     string `json:"host"`
+	Port     int    `json:"port"`
+	UserName string `json:"username"`
+	Password string `json:"password"`
+}
+
 //configure
 type configure struct {
 	Gin           Gin             `json:"gin"`
@@ -65,6 +73,7 @@ type configure struct {
 	Mongo         Mongo           `json:"mongo"`
 	ImageDatabase ImageDatabase   `json:"image_database"`
 	WhiteList     map[string]bool `json:"white_list"`
+	Email         Email           `json:"email"`
 }
 
 var (

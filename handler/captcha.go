@@ -2,12 +2,11 @@ package handler
 
 import (
 	"fmt"
-	"net/http"
-
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/gozh-io/gozh/module/util"
 	"github.com/mojocn/base64Captcha"
+	"net/http"
 )
 
 const (
@@ -35,11 +34,11 @@ func GenerateCaptchaHandler(c *gin.Context) {
 //  验证 验证码是否正确
 // captchaId: 存于session中
 // verifyValue: 客户端发来的验证码
-func VerfiyCaptcha(captchaId, verifyValue string) (int, error) {
+func VerifyCaptcha(captchaId, verifyValue string) (int, error) {
 	verifyResult := base64Captcha.VerifyCaptcha(captchaId, verifyValue)
 	if verifyResult {
 		return CAPTCHA_IS_RIGHT, nil
 	} else {
-		return CAPTCHA_IS_ERROR, fmt.Errorf("captcha is error")
+		return CAPTCHA_IS_ERROR, fmt.Errorf("验证码错误")
 	}
 }

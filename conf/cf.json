@@ -41,5 +41,11 @@
     "http://192.168.200.3":true,
     "http://127.0.0.1":true,
     "http://www.gozh.io":true
+  },
+  "email" : {
+    "host": "smtp.qq.com",
+    "port": 465,
+    "username": "",
+    "password": ""
   }
 }

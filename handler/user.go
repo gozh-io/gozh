@@ -2,12 +2,11 @@ package handler
 
 import (
 	"fmt"
-	"net/http"
-
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
 	"github.com/gozh-io/gozh/module/types"
 	"github.com/gozh-io/gozh/module/util"
+	"net/http"
 )
 
 const (
@@ -46,13 +45,29 @@ func UserSignUp(c *gin.Context) {
 	captchaId, ok := session.Get("captchaId").(string)
 	// 检查是否获取过验证码
 	if !ok {
-		resp.Status, resp.Desc = CAPTCHA_IS_ERROR, "captcha is not generate"
+		resp.Status, resp.Desc = CAPTCHA_IS_ERROR, "无验证码信息"
 		c.JSON(http.StatusOK, resp)
 		return
 	}
 	// 检查验证码是否符合
-	if status, err := VerfiyCaptcha(captchaId, verifyValue); err != nil {
+	if status, err := VerifyCaptcha(captchaId, verifyValue); err != nil {
 		resp.Status, resp.Desc = status, fmt.Sprintf("%v", err)
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
+	// 获取邮箱验证码
+	emailVerifyValue := c.PostForm("email_captcha")
+	emailCaptcha, ok := session.Get("email_captcha").(string)
+	// 检查是否请求发送邮箱验证码
+	if !ok {
+		resp.Status, resp.Desc = EMAIL_CAPTCHA_IS_ERROR, "无邮箱验证码信息"
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+	// 检查邮箱验证码是否正确
+	if err := VerfiyEmailCaptcha(emailCaptcha, emailVerifyValue); err != nil {
+		resp.Status, resp.Desc = EMAIL_CAPTCHA_IS_ERROR, fmt.Sprintf("%v", err)
 		c.JSON(http.StatusOK, resp)
 		return
 	}
@@ -65,7 +80,15 @@ func UserSignUp(c *gin.Context) {
 	}
 
 	mongoUser := util.GetMongoUser()
-	err, status := mongoUser.CheckUser(user)
+
+	err, status := mongoUser.CheckEmail(user.Email)
+	if status == util.USER_EMAIL_EXIST {
+		resp.Status, resp.Desc = status, fmt.Sprintf("%v邮箱已存在", user.Email)
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
+	err, status = mongoUser.CheckUser(user)
 	if status == util.USER_USER_NOT_EXIST {
 		err, status := mongoUser.CreateUser(user)
 		if status == util.USER_CREATE_USER_SUCCESS {

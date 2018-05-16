@@ -23,6 +23,10 @@ const (
 	//
 	USER_CONNECT_MONGO_FAIL = -5
 	USER_FIND_USER_FAIL     = -6
+	//
+	USER_EMAIL_EXIST     = -7
+	USER_FIND_EMAIL_FAIL = -8
+	USER_EMAIL_NOT_EXIST = -9
 )
 
 type User struct {
@@ -143,4 +147,29 @@ func MongoUser(ctx context.Context) *mongoUser {
 //在其他地方都直接调用,初始化一次,到处使用
 func GetMongoUser() *mongoUser {
 	return user
+}
+
+//检测email是否被使用
+func (m *mongoUser) CheckEmail(email string) (err error, status int) {
+	if err := m.Mongo.Connect(); err != nil {
+		return err, USER_CONNECT_MONGO_FAIL
+	}
+	defer m.Mongo.Close()
+	m.Mongo.DB()
+	m.Mongo.C()
+
+	// 查询email字段是否存在
+	q := bson.M{"email": email}
+
+	collection := m.Mongo.GetCollection()
+	count, err := collection.Find(q).Count()
+	// 查询出错处理
+	if err != nil {
+		return err, USER_FIND_EMAIL_FAIL
+	}
+	// email存在处理
+	if count > 0 {
+		return nil, USER_EMAIL_EXIST
+	}
+	return nil, USER_EMAIL_NOT_EXIST
 }

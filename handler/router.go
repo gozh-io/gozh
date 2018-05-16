@@ -34,6 +34,9 @@ func AllRouter(router *gin.Engine, prefix string) {
 	//captcha
 	captcha := fmt.Sprintf("%s/%s", prefix, "captcha")
 	router.GET(captcha, GenerateCaptchaHandler)
+	//email captcha
+	emailCaptcha := fmt.Sprintf("%s/%s", prefix, "email_captcha")
+	router.POST(emailCaptcha, EmailCaptcha)
 	/*
 	  这里添加其他 url和handler处理关系, 请保持这个在最下面
 	*/
