@@ -1,6 +1,6 @@
 package bson
 
-// Current state of the JSON tag fallback option. 
+// Current state of the JSON tag fallback option.
 var useJSONTagFallback = false
 
 // SetJSONTagFallback enables or disables the JSON-tag fallback for structure tagging. When this is enabled, structures

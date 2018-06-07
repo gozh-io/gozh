@@ -44,7 +44,7 @@ func main() {
 	conf := configure.GetConfigure()
 	g := conf.Gin
 	mode, host, url, port, timeout_read, timeout_write := g.Mode, g.Host, g.Url, g.Port, g.Timeout_read_s, g.Timeout_write_s
-	
+
 	gin.SetMode(mode)
 	router := gin.New()
 	useMiddleware(router)                     //配置使用中间件

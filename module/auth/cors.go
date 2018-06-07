@@ -11,14 +11,15 @@ import (
 func Cors() gin.HandlerFunc {
 	conf := configure.GetConfigure()
 	white_list := conf.WhiteList
+
 	// CORS for AllowOriginFunc return true is allowing:
 	// - GET and POST methods
 	// - Origin header
 	// - Credentials share
 	// - Preflight requests cached for 12 hours
 	f := cors.New(cors.Config{
-		AllowMethods:     []string{"GET", "POST"},
-		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type"},
+		AllowMethods:     []string{"GET", "POST", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Length", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		AllowOriginFunc: func(origin string) bool {

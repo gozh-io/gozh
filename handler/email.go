@@ -43,7 +43,7 @@ func EmailCaptcha(c *gin.Context) {
 // emailcaptcha: 存于session中的email_captcha
 // verifyValue: 客户端发来的验证码
 func VerfiyEmailCaptcha(emailCaptcha, verifyValue string) error {
-	fmt.Println("session",emailCaptcha, "post", verifyValue)
+	fmt.Println("session", emailCaptcha, "post", verifyValue)
 	if emailCaptcha != verifyValue {
 		return fmt.Errorf("邮箱验证码错误")
 	}
